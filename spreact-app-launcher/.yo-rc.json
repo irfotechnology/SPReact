@@ -1,0 +1,22 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.20.1",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.9.1"
+    },
+    "version": "1.17.4",
+    "libraryName": "spreact-app-launcher",
+    "libraryId": "3fd82d25-1142-4b91-b195-8d00639b3b0e",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "spreact-app-launcher",
+    "solutionShortDescription": "spreact-app-launcher description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "extension",
+    "extensionType": "ApplicationCustomizer"
+  }
+}

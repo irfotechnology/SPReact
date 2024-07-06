@@ -1,0 +1,39 @@
+<List xmlns:ows="Microsoft SharePoint" 
+    Title="SPReact AppConfig" 
+    Direction="$Resources:Direction;" 
+    EnableContentTypes="TRUE" 
+    FolderCreation="FALSE"
+    Url="Lists/SPReactAppConfig" 
+    BaseType="0" 
+    xmlns="http://schemas.microsoft.com/sharepoint/">
+    <MetaData>
+        <ContentTypes>
+            <ContentTypeRef ID="0x010042D0C1C200A14B6887742B6344675C9B" />
+        </ContentTypes>
+        <Fields></Fields>
+        <Views>
+            <View Name="Default" ContentTypeID="0x"
+                BaseViewID="1" DefaultView="TRUE" Type="HTML"
+                MobileView="TRUE" MobileDefaultView="TRUE"
+                SetupPath="pages\viewpage.aspx" 
+                DisplayName="$Resources:core,objectiv_schema_mwsidcamlidC24;" 
+                Url="default.aspx" 
+                ImageUrl="/_layouts/15/images/generic.png?rev=47" >
+                <Query>  
+                    <OrderBy><FieldRef Name="ID" /></OrderBy>  
+                </Query>  
+                <ViewFields><FieldRef Name="App_x0020_ID" /><FieldRef Name="App_x0020_Name" /><FieldRef Name="App_x0020_Version" /></ViewFields>
+                <RowLimit Paged="TRUE">30</RowLimit>
+                <JSLink>clienttemplates.js</JSLink>
+                <XslLink Default="TRUE">main.xsl</XslLink>
+                <Toolbar Type="Standard"/>
+                
+            </View>
+        </Views>
+        <Forms>
+            <Form Type="DisplayForm" Url="DispForm.aspx" SetupPath="pages\form.aspx"/>
+            <Form Type="EditForm" Url="EditForm.aspx" SetupPath="pages\form.aspx" />
+            <Form Type="NewForm" Url="NewForm.aspx" SetupPath="pages\form.aspx" />
+        </Forms>
+    </MetaData>
+</List>

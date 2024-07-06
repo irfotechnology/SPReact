@@ -1,0 +1,50 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "spreact-app-launcher-client-side-solution",
+    "id": "3fd82d25-1142-4b91-b195-8d00639b3b0e",
+    "version": "1.0.0.16",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.17.4"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "spreact-app-launcher description"
+      },
+      "longDescription": {
+        "default": "spreact-app-launcher description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "Application Extension - Deployment of custom action",
+        "description": "Deploys a custom action with ClientSideComponentId association",
+        "id": "bc7dda60-34e4-4437-8378-0e0675a0031a",
+        "version": "1.0.0.16",
+        "assets": {
+          "elementManifests": [
+            "elements.xml",
+            "ClientSideInstance.xml",
+            "elements-v2.xml"
+          ],
+          "elementFiles": [
+            "schema.xml"
+          ]
+        }
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/spreact-app-launcher.sppkg"
+  }
+}

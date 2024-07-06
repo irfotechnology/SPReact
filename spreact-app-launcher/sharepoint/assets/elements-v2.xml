@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <Field ID="{060E50AC-E9C1-4D3C-B1F9-DE0BCAC300F6}" 
+        Name="App_x0020_Name" 
+        Type="Text"
+        Required="TRUE" 
+        DisplayName="App Name" 
+        StaticName="App_x0020_Name" 
+        Group="Custom Columns" />
+
+    <Field ID="{943E7530-5E2B-4C02-8259-CCD93A9ECB18}" 
+        Name="App_x0020_ID" 
+        Type="Text"
+        Required="TRUE" 
+        DisplayName="App ID" 
+        StaticName="App_x0020_ID" 
+        Group="Custom Columns" />
+
+    <Field ID="{65fb26fc-799a-42ee-9c10-11db8cc9088a}"
+        Name="App_x0020_Version" 
+        Type="Text"
+        Required="TRUE" 
+        DisplayName="App Version" 
+        StaticName="App_x0020_Version" 
+        Group="Custom Columns" />
+    
+    <ContentType ID="0x010042D0C1C200A14B6887742B6344675C9B"
+        Name="SPReact AppConfig ContentType"
+        Group="Custom Content Types"
+        Description="content types for SPReact AppConfig">
+        <FieldRefs>
+            <FieldRef ID="{060E50AC-E9C1-4D3C-B1F9-DE0BCAC300F6}" />
+            <FieldRef ID="{943E7530-5E2B-4C02-8259-CCD93A9ECB18}" />
+            <FieldRef ID="{65fb26fc-799a-42ee-9c10-11db8cc9088a}" />
+        </FieldRefs>
+    </ContentType>
+
+    <ListInstance 
+        CustomSchema="schema.xml"
+        FeatureId="00bfea71-de22-43b2-a848-c05709900100" 
+        Url="Lists/SPReactAppConfig" 
+        Title="SPReact AppConfig"
+        TemplateType="100">
+    </ListInstance>
+</Elements>

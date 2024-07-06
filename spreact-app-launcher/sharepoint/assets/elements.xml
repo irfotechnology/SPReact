@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <CustomAction
+        Title="SpreactAppLauncher"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ClientSideComponentId="28dcfe1b-d5db-4a6d-b0d0-4e46a0e852a3"
+        ClientSideComponentProperties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+    </CustomAction>
+</Elements>

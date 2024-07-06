@@ -1,0 +1,29 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/spfx-serve.schema.json",
+  "port": 4321,
+  "https": true,
+  "serveConfigurations": {
+    "default": {
+      "pageUrl": "https://rotarex.sharepoint.com/sites/TestCommunication",
+      "customActions": {
+        "28dcfe1b-d5db-4a6d-b0d0-4e46a0e852a3": {
+          "location": "ClientSideExtension.ApplicationCustomizer",
+          "properties": {
+            "testMessage": "Test message"
+          }
+        }
+      }
+    },
+    "spreactAppLauncher": {
+      "pageUrl": "https://rotarex.sharepoint.com/sites/TestCommunication",
+      "customActions": {
+        "28dcfe1b-d5db-4a6d-b0d0-4e46a0e852a3": {
+          "location": "ClientSideExtension.ApplicationCustomizer",
+          "properties": {
+            "testMessage": "Test message"
+          }
+        }
+      }
+    }
+  }
+}
