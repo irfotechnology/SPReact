@@ -3,7 +3,7 @@
   "solution": {
     "name": "spreact-app-launcher-client-side-solution",
     "id": "3fd82d25-1142-4b91-b195-8d00639b3b0e",
-    "version": "1.0.0.16",
+    "version": "1.0.0.18",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
@@ -30,7 +30,7 @@
         "title": "Application Extension - Deployment of custom action",
         "description": "Deploys a custom action with ClientSideComponentId association",
         "id": "bc7dda60-34e4-4437-8378-0e0675a0031a",
-        "version": "1.0.0.16",
+        "version": "1.0.0.18",
         "assets": {
           "elementManifests": [
             "elements.xml",

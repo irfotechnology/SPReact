@@ -1,0 +1,8 @@
+{
+    "app": {
+        "name": "myfirst-cra-app",
+        "id": "ccb8eaa9-aaed-4e18-8944-2d1fa7f7aec0",
+        "version": "1.0.0.0"
+    },
+    "appPackagename": "myfirst-cra-app.appkg"
+}

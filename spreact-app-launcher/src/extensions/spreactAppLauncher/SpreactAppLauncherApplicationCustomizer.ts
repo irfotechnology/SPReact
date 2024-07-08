@@ -23,16 +23,24 @@ export interface ISpreactAppLauncherApplicationCustomizerProperties {
 export default class SpreactAppLauncherApplicationCustomizer
   extends BaseApplicationCustomizer<ISpreactAppLauncherApplicationCustomizerProperties> {
 
-  public loadApp(appid: string): void {
+  public loadApp(appid: string, apptitle: string): void {
     const __host = window.location.host;
     if (appid) {
       console.log(`Loading custom app ${appid}`);
       const jsUrl = `https://publiccdn.sharepointonline.com/${__host}/ClientSideApps/${appid}/main.js`
       const cssUrl: string = `https://publiccdn.sharepointonline.com/${__host}/ClientSideApps/${appid}/main.css`
-
+      const iconUrl: string = `https://publiccdn.sharepointonline.com/${__host}/ClientSideApps/${appid}/favicon.ico`
       console.log(jsUrl);
-      // inject the style sheet
+      // update title
       const head = document.getElementsByTagName("head")[0] || document.documentElement;
+      const titleElement = document.createElement("title")
+      titleElement.text = apptitle;
+      head.insertAdjacentElement("afterbegin", titleElement);
+
+      //update icon
+      const appIcon: HTMLLinkElement = document.getElementById('favicon') as HTMLLinkElement;
+      appIcon.href = iconUrl;
+      //inject css
       if (document.getElementById('SPReactStyle') === null) {
         const customStyle: HTMLLinkElement = document.createElement("link");
         customStyle.id = "SPReactStyle"
@@ -56,7 +64,15 @@ export default class SpreactAppLauncherApplicationCustomizer
         document.body.insertAdjacentElement("afterbegin", rootDiv);
       }
 
-      //custom css
+      //inject noscript element
+      if (document.getElementById('noscript') === null) {
+        const noscript = document.createElement("noscript");
+        noscript.id = "noscript"
+        noscript.textContent = "You need to enable JavaScript to run this app."
+        document.body.insertAdjacentElement("afterbegin", noscript);
+      }
+
+      //custom css for hiding sharepoint elements
       (document.getElementsByClassName('SPPageChrome')[0] as any).style.display = 'none';
 
     }
@@ -78,11 +94,42 @@ export default class SpreactAppLauncherApplicationCustomizer
       }
     }
 
+    //workbench loading
+    if (window.location.search.toLowerCase().indexOf("workbench=true") > -1) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const host = urlParams.get('host');
+      if (host != null) {
+        console.log('running workbench of SPREACT launder app...');
+        const head = document.getElementsByTagName("head")[0] || document.documentElement;
+        const jsUrl = `http://${host}/static/js/bundle.js`
+        //inject javascript
+        if (document.getElementById('SPReactScript') === null) {
+          const customScript: HTMLScriptElement = document.createElement("script");
+          customScript.id = "SPReactScript"
+          customScript.src = jsUrl;
+          customScript.setAttribute("defer", "defer")
+          head.insertAdjacentElement("afterbegin", customScript);
+        }
+        //inject root
+        if (document.getElementById('root') === null) {
+          const rootDiv: HTMLDivElement = document.createElement("div");
+          rootDiv.id = "root";
+          rootDiv.style.minHeight = (window.innerHeight - 100) + "px";
+          document.body.insertAdjacentElement("afterbegin", rootDiv);
+        }
+        //custom css for hiding sharepoint elements
+        (document.getElementsByClassName('SPPageChrome')[0] as any).style.display = 'none';
+        return Promise.resolve();
+      }
+    }
+
     if (window.location.search.toLowerCase().indexOf("skip=true") > -1) {
       console.log('skipping SPREACT launder app...');
       return Promise.resolve();
     }
-    
+
+
+
     console.log('Initializing SPREACT launder app...');
 
     const __host = window.location.host;
@@ -105,7 +152,7 @@ export default class SpreactAppLauncherApplicationCustomizer
                 console.log(ex);
                 reject(ex);
               });
-              this.loadApp(installedApps[0].AppID);
+              this.loadApp(installedApps[0].AppID, installedApps[0].AppName);
               resolve();
             }
           }).catch((error) => {
@@ -116,7 +163,7 @@ export default class SpreactAppLauncherApplicationCustomizer
         else {
           //load script
           console.log(items[0].AppID);
-          this.loadApp(items[0].AppID);
+          this.loadApp(items[0].AppID, items[0].AppName);
           resolve();
         }
       }).catch((err) => {
