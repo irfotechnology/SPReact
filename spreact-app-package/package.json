@@ -1,0 +1,27 @@
+{
+  "name": "spreact-app-package",
+  "version": "1.0.2",
+  "description": "create package for spreact app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irfotechnology/SPReact.git"
+  },
+  "author": "SHAIKH Irfan",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/irfotechnology/SPReact/issues"
+  },
+  "files": [
+    "bin"
+  ],
+  "bin": {
+    "spreact-app-package": "./bin/spreact-app-package.js"
+  },
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "shelljs": "^0.8.5"
+  }
+}
