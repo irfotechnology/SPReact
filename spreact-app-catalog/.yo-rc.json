@@ -1,0 +1,22 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.20.1",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.9.1"
+    },
+    "version": "1.17.4",
+    "libraryName": "spreact-app-catalog",
+    "libraryId": "2f846d4a-8ae2-4e4e-8291-084e5d6e5803",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "spreact-app-catalog",
+    "solutionShortDescription": "spreact-app-catalog description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "extension",
+    "extensionType": "ListViewCommandSet"
+  }
+}

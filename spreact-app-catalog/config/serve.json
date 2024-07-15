@@ -1,0 +1,31 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/spfx-serve.schema.json",
+  "port": 4321,
+  "https": true,
+  "serveConfigurations": {
+    "default": {
+      "pageUrl": "https://rotarex.sharepoint.com/sites/TestCommunication/Lists/AppsforSPReact/AllItems.aspx",
+      "customActions": {
+        "1c159267-ca72-442e-ab10-0ef5b6b73e6f": {
+          "location": "ClientSideExtension.ListViewCommandSet",
+          "properties": {
+            "sampleTextOne": "One item is selected in the list",
+            "sampleTextTwo": "This command is always visible."
+          }
+        }
+      }
+    },
+    "spreactAppDeploy": {
+      "pageUrl": "https://rotarex.sharepoint.com/sites/TestCommunication/Lists/AppsforSPReact/AllItems.aspx",
+      "customActions": {
+        "1c159267-ca72-442e-ab10-0ef5b6b73e6f": {
+          "location": "ClientSideExtension.ListViewCommandSet",
+          "properties": {
+            "sampleTextOne": "One item is selected in the list",
+            "sampleTextTwo": "This command is always visible."
+          }
+        }
+      }
+    }
+  }
+}

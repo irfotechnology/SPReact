@@ -1,0 +1,37 @@
+.App {
+    text-align: center;
+}
+
+.ApplogoContainer{
+    width: 40px;
+    animation: App-logo-container-move 20s linear infinite
+}
+
+.Applogo {
+    height: 40px;
+    animation: App-logo-spin 20s linear infinite
+}
+
+@keyframes App-logo-spin {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    to {
+        transform: rotate(1turn)
+    }
+}
+
+@keyframes App-logo-container-move{
+    0% {
+        transform: translateX(0px)
+    }
+
+    50% {
+        transform: translateX(560px)
+    }
+
+    100% {
+        transform: translateX(0px)
+    }
+}

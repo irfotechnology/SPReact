@@ -1,0 +1,140 @@
+<List xmlns:ows="Microsoft SharePoint" 
+    Title="Apps for SPReact" 
+    Direction="$Resources:Direction;" 
+    EnableContentTypes="TRUE" 
+    FolderCreation="FALSE"
+    Url="Lists/AppsforSPReact" 
+    BaseType="1" 
+    xmlns="http://schemas.microsoft.com/sharepoint/">
+    <MetaData>
+        <ContentTypes>
+        </ContentTypes>
+        <Fields>
+            <Field ID="{4665d549-379f-466e-87f1-6b7540d611b5}" 
+                Name="AppTitle" 
+                Type="Text"
+                Required="FALSE" 
+                DisplayName="App Title" 
+                StaticName="AppTitle" 
+                Group="Custom Columns" />
+
+            <Field ID="{25ba71e6-b49f-4e32-8fc0-898ad1a16e56}" 
+                Name="AppID" 
+                Type="Text"
+                Required="FALSE" 
+                DisplayName="App ID" 
+                StaticName="AppID" 
+                Group="Custom Columns" />
+
+            <Field ID="{c4e23318-3757-4818-b547-e59dc4caeec5}"
+                Name="AppVersion" 
+                Type="Text"
+                Required="FALSE" 
+                DisplayName="App Version" 
+                StaticName="AppVersion" 
+                Group="Custom Columns" />
+
+            <Field ID="{c1c2513f-cdea-4b1f-beda-8e979cf804d9}"
+                Name="Description" 
+                Type="Note"
+                Required="FALSE" 
+                DisplayName="Description" 
+                StaticName="Description" 
+                Group="Custom Columns" />
+
+            <Field ID="{ae1e5d4f-a33d-4313-b972-bb09fa805765}"
+                Name="Publisher" 
+                Type="Text"
+                Required="FALSE" 
+                DisplayName="Publisher" 
+                StaticName="Publisher" 
+                Group="Custom Columns" />
+
+            <Field ID="{e2a55b1c-a9b8-4737-ba3f-115cffb94c96}"
+                Name="ValidApp" 
+                Type="Boolean"
+                Required="FALSE" 
+                DisplayName="Valid app package" 
+                StaticName="ValidApp" 
+                Group="Custom Columns" />
+
+            <Field ID="{8996aa02-69df-409c-9c6a-d8baef922944}"
+                Name="Deployed" 
+                Type="Boolean"
+                Required="FALSE" 
+                DisplayName="Deployed" 
+                StaticName="Deployed" 
+                Group="Custom Columns" />
+
+            <Field ID="{e89eade5-fc83-4cc2-a370-cbdd24a5e5d3}"
+                Name="DeployedOn" 
+                Type="DateTime"
+                Required="FALSE" 
+                DisplayName="Deployed On" 
+                StaticName="DeployedOn" 
+                Group="Custom Columns" />
+
+            <Field ID="{aaf1e4fb-2495-43ca-8e57-a3257235da8d}"
+                Name="DeployedBy" 
+                Type="DateTime"
+                Required="FALSE" 
+                DisplayName="Deployed By" 
+                StaticName="User" 
+                Group="Custom Columns" />
+
+            <Field ID="{6de1ffb9-72f4-460d-8dc4-b9153537c185}"
+                Name="AppError" 
+                Type="Note"
+                Required="FALSE" 
+                DisplayName="App package error message" 
+                StaticName="AppError" 
+                Group="Custom Columns" />
+
+            <Field ID="{c3cf05a6-cfe2-4071-95df-dd9e624d5a3c}"
+                Name="HostSPSite" 
+                Type="Text"
+                Required="FALSE" 
+                DisplayName="HostSPSite" 
+                StaticName="HostSPSite" 
+                Group="Custom Columns" />
+        </Fields>
+        <Views>
+            <View Name="AllItems" ContentTypeID="0x"
+                Level="1" BaseViewID="1" 
+                Type="HTML" 
+                WebPartZoneID="Main"
+                DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE"
+                DisplayName="All Items" 
+                Url="AllItems.aspx" 
+                SetupPath="pages\viewpage.aspx" 
+                ImageUrl="/_layouts/15/images/generic.png?rev=47" >
+                <Query>  
+                    <OrderBy><FieldRef Name="DeployedOn" Ascending="FALSE" /></OrderBy>  
+                </Query>  
+                <ViewFields>
+                    <FieldRef Name="LinkFilename" />
+                    <FieldRef Name="AppTitle" />
+                    <FieldRef Name="AppID" />
+                    <FieldRef Name="AppVersion" />
+                    <FieldRef Name="Description" />
+                    <FieldRef Name="Publisher" />
+                    <FieldRef Name="ValidApp" />
+                    <FieldRef Name="Deployed" />
+                    <FieldRef Name="DeployedOn" />
+                    <FieldRef Name="DeployedBy" />
+                    <FieldRef Name="AppError" />
+                    <FieldRef Name="HostSPSite" />
+                </ViewFields>
+                <XslLink Default="TRUE">main.xsl</XslLink>
+                <JSLink>clienttemplates.js</JSLink>
+
+                <RowLimit Paged="TRUE">30</RowLimit>
+            </View>
+        </Views>
+        <Forms>
+            <Form Type="DisplayForm" Url="DispForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+            <Form Type="EditForm" Url="EditForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+            <Form Type="NewForm" Url="NewForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+        </Forms>
+    </MetaData>
+</List>
