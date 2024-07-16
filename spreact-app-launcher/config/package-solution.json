@@ -5,7 +5,7 @@
     "iconPath": "icons/appicon.png",
     "id": "3fd82d25-1142-4b91-b195-8d00639b3b0e",
     "title": "SPREACT APP launcher",
-    "version": "1.0.0.0",
+    "version": "1.0.0.1",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
@@ -32,7 +32,7 @@
         "title": "Application Extension - Deployment of custom action",
         "description": "Deploys a custom action with ClientSideComponentId association",
         "id": "bc7dda60-34e4-4437-8378-0e0675a0031a",
-        "version": "1.0.0.0",
+        "version": "1.0.0.1",
         "assets": {
           "elementManifests": [
             "elements.xml",

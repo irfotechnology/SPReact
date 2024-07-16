@@ -147,7 +147,7 @@ export default class SpreactAppLauncherApplicationCustomizer
         if (items.length === 0) {
           console.log('connecting app catalog site...');
           spProvider.getinstalledApps("https://" + __host).then((apps) => {
-            const installedApps = apps.filter((a: any) => a.HostSPSite.indexOf(__siteUrl) > -1);
+            const installedApps = apps.filter((a: any) => a.HostSPSite.toLowerCase().indexOf(__siteUrl.toLowerCase()) > -1);
             console.log(installedApps);
             if (installedApps !== null && installedApps.length > 0) {
               spProvider.addAppConfig(installedApps[0]).then((v) => {

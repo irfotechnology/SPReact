@@ -10,7 +10,7 @@ function updateStaticCDNPath(dirTemp, cndPath) {
             const files = fs.readdirSync(`${dirStatic}/${dir}`, { recursive: true });
             files.forEach(file => {
                 const file_content = fs.readFileSync(`${dirStatic}/${dir}/${file}`, { encoding: 'utf8' });
-                const new_file_content = file_content.replace(/static/g, cndPath);
+                const new_file_content = file_content.replaceAll('static/', cndPath);
                 fs.writeFileSync(`${dirStatic}/${dir}/${file}`, new_file_content, { encoding: 'utf8' });
             });
         }
