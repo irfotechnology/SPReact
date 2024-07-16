@@ -1,8 +1,11 @@
 {
     "app": {
-        "name": "myfirst-cra-app",
-        "id": "ccb8eaa9-aaed-4e18-8944-2d1fa7f7aec0",
-        "version": "1.0.0.0"
+        "name": "todo-app",
+        "id": "a905de63-3ef1-4412-ade7-2c5637e3c91a",
+        "version": "1.0.0.0",
+        "description" : "ToDo application",
+        "publisher" : "rotarex.com"
     },
-    "appPackagename": "myfirst-cra-app.appkg"
+    "sharepointHost" : "rotarex",
+    "appPackagename": "todo-app.appkg"
 }

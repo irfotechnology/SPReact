@@ -6,12 +6,14 @@ function updateStaticCDNPath(dirTemp, cndPath) {
     const dirStatic = fs.realpathSync(`${dirTemp}/static`);
     const dirSub = fs.readdirSync(dirStatic, { recursive: true });
     dirSub.forEach(dir => {
-        const files = fs.readdirSync(`${dirStatic}/${dir}`, { recursive: true });
-        files.forEach(file => {
-            const file_content = fs.readFileSync(`${dirStatic}/${dir}/${file}`, { encoding: 'utf8' });
-            const new_file_content = file_content.replace(/static/g, cndPath);
-            fs.writeFileSync(`${dirStatic}/${dir}/${file}`, new_file_content, { encoding: 'utf8' });
-        });
+        if (fs.statSync(`${dirStatic}/${dir}`).isDirectory()) {
+            const files = fs.readdirSync(`${dirStatic}/${dir}`, { recursive: true });
+            files.forEach(file => {
+                const file_content = fs.readFileSync(`${dirStatic}/${dir}/${file}`, { encoding: 'utf8' });
+                const new_file_content = file_content.replace(/static/g, cndPath);
+                fs.writeFileSync(`${dirStatic}/${dir}/${file}`, new_file_content, { encoding: 'utf8' });
+            });
+        }
     });
 }
 
