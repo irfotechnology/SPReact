@@ -76,7 +76,7 @@
 
             <Field ID="{aaf1e4fb-2495-43ca-8e57-a3257235da8d}"
                 Name="DeployedBy" 
-                Type="DateTime"
+                Type="User"
                 Required="FALSE" 
                 DisplayName="Deployed By" 
                 StaticName="User" 

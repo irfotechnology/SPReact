@@ -43,7 +43,8 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
   public async onExecute(event: IListViewCommandSetExecuteEventParameters): Promise<void> {
     switch (event.itemId) {
       case 'COMMAND_1':
-        console.log('Deploying app....');
+        console.log('Deploying app....');     
+        const __user = await sp.web.currentUser.get();
         const __Id: string = event.selectedRows[0].getValueByName("ID");
         const __fileName: string = event.selectedRows[0].getValueByName("FileLeafRef");
         const __filePath = event.selectedRows[0].getValueByName("FileRef");
@@ -87,11 +88,14 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
                       appId: __appInfo.id,
                       appTitle: __appInfo.name,
                       appVersion: __appInfo.version,
+                      description: __appInfo.description,
+                      publisher: __appInfo.publisher,
                       validAppPackage: true,
                       deployed: true,
-                      //deployedBy : this.context.pageContext.user.
-                      deployedOn: (new Date),
-                      hostSPSite: __selectedSite
+                      deployedBy : __user.Id,
+                      deployedOn: (new Date()),
+                      hostSPSite: __selectedSite,
+                      appPackageErrorMessage:''
                     });
                     await __window.ShowAlert("Application package has been deployed successfully.");
                     await _progressDialog.Close();
@@ -102,10 +106,12 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
                       appId: __appInfo.id,
                       appTitle: __appInfo.name,
                       appVersion: __appInfo.version,
+                      description: __appInfo.description,
+                      publisher: __appInfo.publisher,
                       validAppPackage: true,
                       deployed: false,
-                      //deployedBy : this.context.pageContext.user.
-                      deployedOn: (new Date),
+                      deployedBy : null,
+                      deployedOn: null,
                       hostSPSite: '',
                       appPackageErrorMessage: `Error in creating files... ${err}`
                     });
@@ -120,10 +126,12 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
                   appId: __appInfo.id,
                   appTitle: __appInfo.name,
                   appVersion: __appInfo.version,
+                  description: __appInfo.description,
+                  publisher: __appInfo.publisher,
                   validAppPackage: true,
                   deployed: false,
-                  //deployedBy : this.context.pageContext.user.
-                  deployedOn: (new Date),
+                  deployedBy : null,
+                  deployedOn: null,
                   hostSPSite: '',
                   appPackageErrorMessage: `Error in creating folders... ${error}`
                 });
@@ -142,7 +150,13 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
               appId: '',
               appTitle: '',
               appVersion: '',
+              description:'',
+              publisher:'',
+              deployed: false,
               validAppPackage: false,
+              deployedBy: null,
+              deployedOn: null,
+              hostSPSite: '',
               appPackageErrorMessage: `Invalid application package : ${err}`
             });
             await __window.ShowAlert(`Error in loading app pakckage... ${err}`)
@@ -178,6 +192,9 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
                   appId: __appInfo.id,
                   appTitle: __appInfo.name,
                   appVersion: __appInfo.version,
+                  description: __appInfo.description,
+                  publisher : __appInfo.publisher,
+                  deployedBy: null,
                   validAppPackage: true,
                   deployed: false,
                   appPackageErrorMessage: '',

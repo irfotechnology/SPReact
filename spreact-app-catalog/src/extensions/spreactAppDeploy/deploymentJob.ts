@@ -7,6 +7,8 @@ export interface IAppManifest {
     id: string;
     name: string;
     version: string;
+    description: string;
+    publisher: string;
 }
 
 export interface IAppPack {
@@ -14,9 +16,11 @@ export interface IAppPack {
     appTitle: string;
     appId: string;
     appVersion: string;
+    description: string;
+    publisher: string;
     validAppPackage: boolean;
     deployed?: boolean;
-    deployedBy?: number;
+    deployedBy?: number | null;
     deployedOn?: Date | null;
     hostSPSite?: string;
     appPackageErrorMessage?: string
@@ -216,7 +220,7 @@ export default class deploymentJob {
                 const __tempfolder = this.deploymentConfig.tempPath;
                 const __content = this.zipContents;
                 const __allitems = Object.keys(__content.files);
-                for (var i=0; i< __allitems.length; i++) {
+                for (var i = 0; i < __allitems.length; i++) {
                     var filename = __allitems[i]
                     if (__content.files[filename].dir == false) {
                         const __fileContent = await __content.file(filename).async('nodebuffer')
@@ -239,6 +243,22 @@ export default class deploymentJob {
         });
     }
 
+    public formatDate(d: Date) {
+        var month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        var hours = d.getHours();
+        var minutes = d.getMinutes();
+
+        return [year, month, day].join('-') + "T" + hours + ":" + minutes + ":00Z";
+    }
+
     public updateDeploymentStatus(appPack: IAppPack): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
             const __web = Web(this._appCatalogUrl);
@@ -246,9 +266,11 @@ export default class deploymentJob {
                 AppTitle: appPack.appTitle,
                 AppID: appPack.appId,
                 AppVersion: appPack.appVersion,
+                Description: appPack.description,
+                Publisher: appPack.publisher,
                 ValidApp: appPack.validAppPackage,
                 Deployed: appPack.deployed,
-                DeployedBy: appPack.deployedBy,
+                DeployedById: appPack.deployedBy,
                 DeployedOn: appPack.deployedOn,
                 HostSPSite: appPack.hostSPSite,
                 AppError: appPack.appPackageErrorMessage

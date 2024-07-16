@@ -1,24 +1,53 @@
 #!/usr/bin/env node
 
-function updateStaticCDNPath(dirTemp, cndPath){
+'use strict';
+
+function updateStaticCDNPath(dirTemp, cndPath) {
     const dirStatic = fs.realpathSync(`${dirTemp}/static`);
-    const dirSub = fs.readdirSync(dirStatic,{recursive: true});
+    const dirSub = fs.readdirSync(dirStatic, { recursive: true });
     dirSub.forEach(dir => {
-        const files = fs.readdirSync(`${dirStatic}/${dir}`,{recursive:true});
+        const files = fs.readdirSync(`${dirStatic}/${dir}`, { recursive: true });
         files.forEach(file => {
-            const file_content = fs.readFileSync(`${dirStatic}/${dir}/${file}`,{encoding:'utf8'});
+            const file_content = fs.readFileSync(`${dirStatic}/${dir}/${file}`, { encoding: 'utf8' });
             const new_file_content = file_content.replace(/static/g, cndPath);
-            fs.writeFileSync(`${dirStatic}/${dir}/${file}`,new_file_content,{encoding:'utf8'});
+            fs.writeFileSync(`${dirStatic}/${dir}/${file}`, new_file_content, { encoding: 'utf8' });
         });
     });
 }
 
-console.log("Creating application package.... please wait...");
-const currentDir = process.cwd();
-
-console.log(`working directory : ${currentDir} `);
 const fs = require('node:fs');
+const currentDir = process.cwd();
+console.log(`working directory : ${currentDir} `);
 
+if (process.argv.indexOf('--init') > -1) {
+    if (fs.existsSync(`${currentDir}/config/app-package.json`)) {
+        console.log('The file app-package.json is already exists.');
+        process.exit(1);
+    }
+    else {
+        if (!fs.existsSync(`${currentDir}/config`)) {
+            fs.mkdirSync(`${currentDir}/config`);
+        }
+        const { randomUUID } = require('crypto');
+        const __appID = randomUUID();
+        fs.writeFileSync(`${currentDir}/config/app-package.json`,
+            `{
+    "app": {
+        "name": "myfirst-spreact-app",
+        "id": "${__appID}",
+        "version": "1.0.0.0",
+        "description" : "Description of application in multiple lines",
+        "publisher" : "contoso.com"
+    },
+    "sharepointHost" : "contoso",
+    "appPackagename": "myfirst-spreact-app.appkg"
+}`, { encoding: 'utf-8' });
+        console.log('The file app-package.json is created successfully.');
+        process.exit(1);
+    }
+}
+
+console.log("Creating application package.... please wait...");
 
 const dirDeploy = `${currentDir}/deploy`
 const dirTemp = `${dirDeploy}/temp`;
@@ -46,12 +75,12 @@ try {
     fs.cpSync(dirBuild, dirTemp, { recursive: true, force: true });
     //console.log('Build files copied to temp.');
     //update static/ path
-    updateStaticCDNPath(dirTemp,staticCDNPath);
+    updateStaticCDNPath(dirTemp, staticCDNPath);
     //console.log('Updated static cdn path.');
     //copy main.js file
-    fs.copyFileSync(fs.realpathSync(`${dirTemp}${mainJS}`),`${dirTemp}/main.js`);
+    fs.copyFileSync(fs.realpathSync(`${dirTemp}${mainJS}`), `${dirTemp}/main.js`);
     //copy main.css file
-    fs.copyFileSync(fs.realpathSync(`${dirTemp}${mainCss}`),`${dirTemp}/main.css`);
+    fs.copyFileSync(fs.realpathSync(`${dirTemp}${mainCss}`), `${dirTemp}/main.css`);
     //Copy app manifest file
     fs.writeFileSync(`${dirTemp}/appManifest.json`, JSON.stringify(appManifest));
     //create app pacakge

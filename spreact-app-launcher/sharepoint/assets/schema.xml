@@ -8,32 +8,77 @@
     xmlns="http://schemas.microsoft.com/sharepoint/">
     <MetaData>
         <ContentTypes>
-            <ContentTypeRef ID="0x010042D0C1C200A14B6887742B6344675C9B" />
         </ContentTypes>
-        <Fields></Fields>
+        <Fields>
+            <Field ID="{4665d549-379f-466e-87f1-6b7540d611b5}" 
+                Name="AppTitle" 
+                Type="Text"
+                Required="FALSE" 
+                DisplayName="App Title" 
+                StaticName="AppTitle" 
+                Group="Custom Columns" />
+
+            <Field ID="{25ba71e6-b49f-4e32-8fc0-898ad1a16e56}" 
+                Name="AppID" 
+                Type="Text"
+                Required="FALSE" 
+                DisplayName="App ID" 
+                StaticName="AppID" 
+                Group="Custom Columns" />
+
+            <Field ID="{c4e23318-3757-4818-b547-e59dc4caeec5}"
+                Name="AppVersion" 
+                Type="Text"
+                Required="FALSE" 
+                DisplayName="App Version" 
+                StaticName="AppVersion" 
+                Group="Custom Columns" />
+
+            <Field ID="{c1c2513f-cdea-4b1f-beda-8e979cf804d9}"
+                Name="Description" 
+                Type="Note"
+                Required="FALSE" 
+                DisplayName="Description" 
+                StaticName="Description" 
+                Group="Custom Columns" />
+
+            <Field ID="{ae1e5d4f-a33d-4313-b972-bb09fa805765}"
+                Name="Publisher" 
+                Type="Text"
+                Required="FALSE" 
+                DisplayName="Publisher" 
+                StaticName="Publisher" 
+                Group="Custom Columns" />
+        </Fields>
         <Views>
-            <View Name="Default" ContentTypeID="0x"
-                BaseViewID="1" DefaultView="TRUE" Type="HTML"
-                MobileView="TRUE" MobileDefaultView="TRUE"
+            <View Name="AllItems" ContentTypeID="0x"
+                BaseViewID="1"
+                Type="HTML" 
+                WebPartZoneID="Main"
+                DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE"
+                DisplayName="All Items" 
+                Url="AllItems.aspx" 
                 SetupPath="pages\viewpage.aspx" 
-                DisplayName="$Resources:core,objectiv_schema_mwsidcamlidC24;" 
-                Url="default.aspx" 
                 ImageUrl="/_layouts/15/images/generic.png?rev=47" >
                 <Query>  
                     <OrderBy><FieldRef Name="ID" /></OrderBy>  
                 </Query>  
-                <ViewFields><FieldRef Name="App_x0020_ID" /><FieldRef Name="App_x0020_Name" /><FieldRef Name="App_x0020_Version" /></ViewFields>
-                <RowLimit Paged="TRUE">30</RowLimit>
-                <JSLink>clienttemplates.js</JSLink>
+                <ViewFields>
+                    <FieldRef Name="AppTitle" />
+                    <FieldRef Name="AppID" />
+                    <FieldRef Name="AppVersion" />
+                    <FieldRef Name="Description" />
+                    <FieldRef Name="Publisher" />
+                </ViewFields>
                 <XslLink Default="TRUE">main.xsl</XslLink>
-                <Toolbar Type="Standard"/>
-                
+                <JSLink>clienttemplates.js</JSLink>
+                <RowLimit Paged="TRUE">30</RowLimit>
             </View>
         </Views>
         <Forms>
-            <Form Type="DisplayForm" Url="DispForm.aspx" SetupPath="pages\form.aspx"/>
-            <Form Type="EditForm" Url="EditForm.aspx" SetupPath="pages\form.aspx" />
-            <Form Type="NewForm" Url="NewForm.aspx" SetupPath="pages\form.aspx" />
+            <Form Type="DisplayForm" Url="DispForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+            <Form Type="EditForm" Url="EditForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+            <Form Type="NewForm" Url="NewForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
         </Forms>
     </MetaData>
 </List>

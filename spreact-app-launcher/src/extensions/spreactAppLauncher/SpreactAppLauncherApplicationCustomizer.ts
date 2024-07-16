@@ -23,6 +23,7 @@ export interface ISpreactAppLauncherApplicationCustomizerProperties {
 export default class SpreactAppLauncherApplicationCustomizer
   extends BaseApplicationCustomizer<ISpreactAppLauncherApplicationCustomizerProperties> {
 
+    //<link rel="preload" href="https://publiccdn.sharepointonline.com/rotarex.sharepoint.com/sites/TravelPerk/ClientSideAssets/712feaac-4467-48b6-80aa-a64a37caea97/tile-menu-web-part-web-part_55248c0bbc7b6ac3bc8e.js" as="script" crossorigin="">
   public loadApp(appid: string, apptitle: string): void {
     const __host = window.location.host;
     if (appid) {
@@ -53,7 +54,10 @@ export default class SpreactAppLauncherApplicationCustomizer
         const customScript: HTMLScriptElement = document.createElement("script");
         customScript.id = "SPReactScript"
         customScript.src = jsUrl;
-        customScript.setAttribute("defer", "defer")
+        customScript.setAttribute("rel", "preload");
+        customScript.setAttribute("defer", "defer");
+        customScript.setAttribute("as", "script");
+        customScript.setAttribute("crossorigin", "");
         head.insertAdjacentElement("afterbegin", customScript);
       }
       //inject root
@@ -132,7 +136,7 @@ export default class SpreactAppLauncherApplicationCustomizer
 
     console.log('Initializing SPREACT launder app...');
 
-    const __host = window.location.host;
+    const __host = window.location.host + '/sites/apps';
     console.log('setting up pnpjs...');
     sp.setup({ spfxContext: this.context as any });
     const spProvider = new SPProvider();
@@ -152,7 +156,7 @@ export default class SpreactAppLauncherApplicationCustomizer
                 console.log(ex);
                 reject(ex);
               });
-              this.loadApp(installedApps[0].AppID, installedApps[0].AppName);
+              this.loadApp(installedApps[0].appId, installedApps[0].appTitle);
               resolve();
             }
           }).catch((error) => {
@@ -162,8 +166,8 @@ export default class SpreactAppLauncherApplicationCustomizer
         }
         else {
           //load script
-          console.log(items[0].AppID);
-          this.loadApp(items[0].AppID, items[0].AppName);
+          console.log(items[0].appId);
+          this.loadApp(items[0].appId, items[0].appTitle);
           resolve();
         }
       }).catch((err) => {

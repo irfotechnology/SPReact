@@ -10,9 +10,12 @@ class SPProvider implements ISPProvider {
             sp.web.lists.getByTitle('SPReact AppConfig').items.getAll().then((__items) => {
                 const __apps = __items.map((item) => {
                     return {
-                        AppID: item.App_x0020_ID,
-                        AppName: item.App_x0020_Name,
-                        AppVersion: item.App_x0020_Version
+                        Id: item.Id,
+                        appId: item.AppID,
+                        appTitle: item.AppTitle,
+                        appVersion: item.AppVersion,
+                        description: item.Description,
+                        publisher: item.Publisher
                     } as IAppConfig;
                 });
                 resolve(__apps);
@@ -25,9 +28,11 @@ class SPProvider implements ISPProvider {
     public addAppConfig(appConfig: IAppConfig): Promise<boolean> {
         return new Promise((resolve, reject) => {
             sp.web.lists.getByTitle('SPReact AppConfig').items.add({
-                'App_x0020_ID': appConfig.AppID,
-                'App_x0020_Name': appConfig.AppName,
-                'App_x0020_Version' : appConfig.AppVersion
+                'AppID': appConfig.appId,
+                'AppTitle': appConfig.appTitle,
+                'AppVersion': appConfig.appVersion,
+                'Description': appConfig.description,
+                'Publisher': appConfig.publisher
             }).then((v) => {
                 resolve(true);
             }).catch((err) => {
@@ -38,13 +43,15 @@ class SPProvider implements ISPProvider {
 
     public getinstalledApps(appCatalogUrl: string): Promise<IAppConfig[]> {
         return new Promise((resolve, reject) => {
-            Web(appCatalogUrl).lists.getByTitle('App for SPReact').items.getAll().then((apps: any[]) => {
+            Web(appCatalogUrl).lists.getByTitle('Apps for SPReact').items.getAll().then((apps: any[]) => {
                 const __apps = apps.map((app) => {
                     return {
-                        AppID: app.AppID,
-                        AppName: app.AppTitle,
-                        HostSPSite : app.HostSPSite,
-                        AppVersion: app.AppVersion
+                        appId: app.AppID,
+                        appTitle: app.AppTitle,
+                        appVersion: app.AppVersion,
+                        description: app.Description,
+                        publisher: app.Publisher,
+                        HostSPSite: app.HostSPSite,
                     } as IAppConfig;
                 });
                 resolve(__apps);

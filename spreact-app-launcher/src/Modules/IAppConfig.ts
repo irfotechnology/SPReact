@@ -1,6 +1,9 @@
 export default interface IAppConfig{
-    AppID:string;
-    AppName: string;
-    AppVersion: string;
+    Id: number;
+    appTitle: string;
+    appId: string;
+    appVersion: string;
+    description: string;
+    publisher: string;
     HostSPSite?: string
 }
