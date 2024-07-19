@@ -1,0 +1,11 @@
+{
+    "app": {
+        "name": "todo-app",
+        "id": "a905de63-3ef1-4412-ade7-2c5637e3c91a",
+        "version": "1.0.0.3",
+        "description" : "ToDo application",
+        "publisher" : "contoso.com"
+    },
+    "sharepointHost" : "contoso",
+    "appPackagename": "todo-app.appkg"
+}
