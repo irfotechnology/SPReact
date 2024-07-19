@@ -23,7 +23,6 @@ export interface ISpreactAppLauncherApplicationCustomizerProperties {
 export default class SpreactAppLauncherApplicationCustomizer
   extends BaseApplicationCustomizer<ISpreactAppLauncherApplicationCustomizerProperties> {
 
-    //<link rel="preload" href="https://publiccdn.sharepointonline.com/rotarex.sharepoint.com/sites/TravelPerk/ClientSideAssets/712feaac-4467-48b6-80aa-a64a37caea97/tile-menu-web-part-web-part_55248c0bbc7b6ac3bc8e.js" as="script" crossorigin="">
   public loadApp(appid: string, apptitle: string): void {
     const __host = window.location.host;
     if (appid) {

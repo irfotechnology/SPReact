@@ -4,7 +4,7 @@
   "https": true,
   "serveConfigurations": {
     "default": {
-      "pageUrl": "https://rotarex.sharepoint.com/sites/TestCommunication",
+      "pageUrl": "https://contoso.sharepoint.com/sites/TestCommunication",
       "customActions": {
         "28dcfe1b-d5db-4a6d-b0d0-4e46a0e852a3": {
           "location": "ClientSideExtension.ApplicationCustomizer",
@@ -15,7 +15,7 @@
       }
     },
     "spreactAppLauncher": {
-      "pageUrl": "https://rotarex.sharepoint.com/sites/TestCommunication",
+      "pageUrl": "https://contoso.sharepoint.com/sites/TestCommunication",
       "customActions": {
         "28dcfe1b-d5db-4a6d-b0d0-4e46a0e852a3": {
           "location": "ClientSideExtension.ApplicationCustomizer",

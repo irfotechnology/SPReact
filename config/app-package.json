@@ -4,8 +4,8 @@
         "id": "a905de63-3ef1-4412-ade7-2c5637e3c91a",
         "version": "1.0.0.0",
         "description" : "ToDo application",
-        "publisher" : "rotarex.com"
+        "publisher" : "contoso.com"
     },
-    "sharepointHost" : "rotarex",
+    "sharepointHost" : "contoso",
     "appPackagename": "todo-app.appkg"
 }

@@ -61,8 +61,8 @@ try {
     const mainCss = assetManifest.files['main.css'];
     const packManifest = JSON.parse(fs.readFileSync(`${currentDir}/config/app-package.json`));
     const appManifest = packManifest.app;
-    const sharePoint = packManifest.sharepointHost;
-    const staticCDNPath = `/publiccdn.sharepointonline.com/rotarex.${sharePoint}.com/ClientSideApps/${appManifest.id}/static/`
+    const sharepointHost = packManifest.sharepointHost;
+    const staticCDNPath = `/publiccdn.sharepointonline.com/${sharepointHost}.sharepoint.com/ClientSideApps/${appManifest.id}/static/`
 
     if (!fs.existsSync(dirDeploy)) {
         fs.mkdirSync(dirDeploy);

@@ -121,7 +121,7 @@ While doing development you may want to run your SPREACT app inside SharePoint s
 Goto your sharepoint development site and install 'SPREACT App launcher' app and use the url paramter in the link to render your site.
 For example: 
 
->   https://contoso.SharePoint.com/Sites/Dev?Workbench=true
+>   https://contoso.SharePoint.com/Sites/Dev?workbench=true&host=localhost:3000
 
 
 **| Unload App |**

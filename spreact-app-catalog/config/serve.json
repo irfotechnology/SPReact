@@ -4,7 +4,7 @@
   "https": true,
   "serveConfigurations": {
     "default": {
-      "pageUrl": "https://rotarex.sharepoint.com/sites/TestCommunication/Lists/AppsforSPReact/AllItems.aspx",
+      "pageUrl": "https://contoso.sharepoint.com/sites/TestCommunication/Lists/AppsforSPReact/AllItems.aspx",
       "customActions": {
         "1c159267-ca72-442e-ab10-0ef5b6b73e6f": {
           "location": "ClientSideExtension.ListViewCommandSet",
@@ -16,7 +16,7 @@
       }
     },
     "spreactAppDeploy": {
-      "pageUrl": "https://rotarex.sharepoint.com/sites/TestCommunication/Lists/AppsforSPReact/AllItems.aspx",
+      "pageUrl": "https://contoso.sharepoint.com/sites/TestCommunication/Lists/AppsforSPReact/AllItems.aspx",
       "customActions": {
         "1c159267-ca72-442e-ab10-0ef5b6b73e6f": {
           "location": "ClientSideExtension.ListViewCommandSet",
