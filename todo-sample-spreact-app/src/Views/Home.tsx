@@ -8,7 +8,6 @@ function Home() {
         <Fab
             onClick={(e) => {
                 window.location.hash = "/notes/new";
-                window.location.reload();
                 e.preventDefault();
             }}
             color="secondary"

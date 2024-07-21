@@ -1,28 +1,11 @@
-import { INote } from "../Models/INote";
 import { sp } from '@pnp/sp/presets/all'
+import { ISPListProvider } from './ISPListProvider';
+import { IAppInfo } from '../Models/IAppInfo';
+import { INote } from '../Models/INote';
 
-//const _notes = Notes;
+class SPListProvider implements ISPListProvider {
 
-export interface IAppInfo {
-    id: string;
-    name: string;
-    description: string;
-    version: string;
-    publisher: string;
-}
-
-interface INoteProvider {
-    getNotes(): Promise<INote[]>;
-    addNote(note: INote): Promise<number>;
-    updateNote(note: INote): Promise<boolean>;
-    deleteNote(Id: number): Promise<boolean>;
-    getNoteById(id: number): Promise<INote | null>;
-    //getAppInfo(): Promise<IAppInfo>;
-}
-
-class NoteProvider implements INoteProvider {
-
-    public static getUserProfile(): Promise<{ name: string; email: string; }> {
+    public getUserProfile(): Promise<{ name: string; email: string; }> {
         return new Promise<{ name: string; email: string; }>((resolve, reject) => {
             sp.web.currentUser().then((__user) => {
                 resolve({ name: __user.Title, email: __user.Email });
@@ -32,7 +15,7 @@ class NoteProvider implements INoteProvider {
         });
     }
 
-    public static getAppInfo(): Promise<IAppInfo> {
+    public getAppInfo(): Promise<IAppInfo> {
         return new Promise<IAppInfo>((resolve, reject) => {
             sp.web.lists.getByTitle('SPReact AppConfig').items.select('AppID', 'AppTitle', 'AppVersion', 'Description', 'Publisher').top(1).get().then((items) => {
                 const appinfo = {
@@ -130,4 +113,4 @@ class NoteProvider implements INoteProvider {
 
 }
 
-export default NoteProvider;
+export default SPListProvider;

@@ -1,21 +1,22 @@
-import {  Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import DeleteIcon from '@mui/icons-material/Delete';
-import NoteProvider from '../Providers/NoteProvider';
 import { INote } from '../Models/INote';
+import UserContext from '../AppContext/UserContext';
 
-function LeftNavBar(props: { drawerOpen: boolean, onDrawerOpen: (isOpen: boolean) => void }) {
+function LeftNavBar(props: { drawerOpen: boolean, onDrawerOpen: (isOpen: boolean) => void}) {
     const [isClosing, setIsClosing] = React.useState(false);
     const [__notes, __setNotes] = useState<INote[]>([]);
+    const context = React.useContext(UserContext);
 
     useEffect(() => {
-        (new NoteProvider()).getNotes().then((n) => {
+        context.DefaultSPListProvider.getNotes().then((n) => {
             if (n != null) {
                 __setNotes(n);
             }
         });
-    }, []);
+    }, [context.DefaultSPListProvider]);
 
 
     const handleDrawerToggle = () => {
@@ -54,23 +55,25 @@ function LeftNavBar(props: { drawerOpen: boolean, onDrawerOpen: (isOpen: boolean
                     <ListItem key={note.title} disablePadding>
                         <ListItemButton
                             onClick={(e) => {
-                                window.location.hash = '/notes/' + note.id;
                                 handleDrawerToggle();
                                 e.preventDefault();
+                                window.location.hash = '/notes/' + note.id;
                             }}
                         >
                             <ListItemText primary={note.title} />
                             <ListItemIcon onClick={(e) => {
+                                context.AppNotificationService.postToastMessage('Note Deleted!');
                                 e.preventDefault();
-                                (new NoteProvider()).deleteNote(note.id).then((v) => {
+                                context.DefaultSPListProvider.deleteNote(note.id).then((v) => {
                                     if (v) {
-                                        //props.showMessage('Note Deleted!');
-                                        (new NoteProvider()).getNotes().then((n) => {
+                                        context.DefaultSPListProvider.getNotes().then((n) => {
                                             if (n != null) {
                                                 __setNotes(n);
-                                                window.location.hash = '/';
-                                                window.location.reload();
                                                 handleDrawerToggle();
+                                                setTimeout(() => {
+                                                    window.location.hash = "/notes/new";
+                                                    window.location.reload();
+                                                }, 1000);
                                             }
                                         });
                                     }
@@ -90,34 +93,34 @@ function LeftNavBar(props: { drawerOpen: boolean, onDrawerOpen: (isOpen: boolean
         sx={{ width: { sm: props.drawerOpen ? drawerWidth : 0 }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
     >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Drawer
-            //container={container}
-            variant="temporary"
-            open={props.drawerOpen}
-            onTransitionEnd={handleDrawerTransitionEnd}
-            onClose={handleDrawerClose}
-            ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-            }}
-            sx={{
-                display: props.drawerOpen ? { sm: 'block' } : { xs: 'none' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-            }}
-        >
-            {drawer}
-        </Drawer>
-        <Drawer
-            //container={container}
-            variant="permanent"
-            open={props.drawerOpen}
-            sx={{
-                display: props.drawerOpen ? { sm: 'block' } : { xs: 'none' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-            }}
-        >
-            {drawer}
-        </Drawer>
+            {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+            <Drawer
+                //container={container}
+                variant="temporary"
+                open={props.drawerOpen}
+                onTransitionEnd={handleDrawerTransitionEnd}
+                onClose={handleDrawerClose}
+                ModalProps={{
+                    keepMounted: true, // Better open performance on mobile.
+                }}
+                sx={{
+                    display: props.drawerOpen ? { sm: 'block' } : { xs: 'none' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                }}
+            >
+                {drawer}
+            </Drawer>
+            <Drawer
+                //container={container}
+                variant="permanent"
+                open={props.drawerOpen}
+                sx={{
+                    display: props.drawerOpen ? { sm: 'block' } : { xs: 'none' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                }}
+            >
+                {drawer}
+            </Drawer>
     </Box>;
 }
 

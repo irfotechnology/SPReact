@@ -6,29 +6,29 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AppRouteConfig from '../Routes/AppRoute.config';
-import NoteProvider from '../Providers/NoteProvider';
-import Notebook from '@mui/icons-material/Note'
+import UserContext from '../AppContext/UserContext';
+const applogo = require('../Media/images/applogo.png'); //convert into base64 image
 
 //const pages = [{name:'Home', href:'/'},{name: 'About', href:'/About'}];
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar(props: { onIconClick: () => void }) {
+  const context = React.useContext(UserContext);
   const pages = AppRouteConfig.pages.filter((p) => p.isVisible);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [__user, __setUser] = React.useState<{ name: string, email: string }>();
   React.useEffect(()=>{
-    NoteProvider.getUserProfile().then((u) => {
+    context.DefaultSPListProvider.getUserProfile().then((u) => {
       __setUser(u);
     })
-  },[]);
+  },[context.DefaultSPListProvider]);
   
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -53,11 +53,12 @@ function ResponsiveAppBar(props: { onIconClick: () => void }) {
 
   return (
     <>
-      <AppBar position="static">
-        <Container maxWidth="xl">
+      <AppBar position="sticky">
+        <Box sx={{margin:'0px 60px'}} >
           <Toolbar disableGutters>
             <MenuIcon onClick={props.onIconClick} sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-            <Notebook sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            {/* <Notebook sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
+            <img src={applogo} alt='applogo' width={'24px'} style={{display: 'flex', margin: '0px 10px'  }}></img>
             <Typography
               variant="h6"
               noWrap
@@ -112,7 +113,8 @@ function ResponsiveAppBar(props: { onIconClick: () => void }) {
                 ))}
               </Menu>
             </Box>
-            <Notebook sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+            {/* <Notebook sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
+            {/* <img src={applogo} width={'24px'} style={{display:'flex', marginRight: 1  }}></img> */}
             <Typography
               variant="h5"
               noWrap
@@ -129,7 +131,7 @@ function ResponsiveAppBar(props: { onIconClick: () => void }) {
                 textDecoration: 'none',
               }}
             >
-              LOGO
+              MY NOTES
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
@@ -142,10 +144,10 @@ function ResponsiveAppBar(props: { onIconClick: () => void }) {
                 </Button>
               ))}
             </Box>
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, float:'right' }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt={__user?.name} src={`/sites/AboliTest/_layouts/15/userphoto.aspx?size=L&accountname=${__user?.email}`} />
+                  <Avatar alt={__user?.name} src={`${context.SPHost}/_layouts/15/userphoto.aspx?size=L&accountname=${__user?.email}`} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -172,7 +174,7 @@ function ResponsiveAppBar(props: { onIconClick: () => void }) {
               </Menu>
             </Box>
           </Toolbar>
-        </Container>
+        </Box>
       </AppBar>
     </>
   );
