@@ -97,6 +97,22 @@
                 DisplayName="HostSPSite" 
                 StaticName="HostSPSite" 
                 Group="Custom Columns" />
+            
+            <Field ID="{cdddb399-30ff-4c80-8386-569d35baddc5}"
+                Name="MainJS" 
+                Type="Text"
+                Required="FALSE" 
+                DisplayName="MainJS" 
+                StaticName="MainJS" 
+                Group="Custom Columns" />
+
+            <Field ID="{687c14f1-5af6-4416-a0f0-65c78b33bc21}"
+                Name="MainCss" 
+                Type="Text"
+                Required="FALSE" 
+                DisplayName="MainCss" 
+                StaticName="MainCss" 
+                Group="Custom Columns" />
         </Fields>
         <Views>
             <View Name="AllItems" ContentTypeID="0x"

@@ -1,4 +1,4 @@
-import { IFileAddResult, IWeb, Web } from "@pnp/sp/presets/all";
+import { FieldTypes, IFileAddResult, IWeb, Web } from "@pnp/sp/presets/all";
 import deployment_config from "./deployment.config";
 import buildTree, { TreeNode } from "./buildtree";
 const JSZip = require('jszip');
@@ -9,6 +9,13 @@ export interface IAppManifest {
     version: string;
     description: string;
     publisher: string;
+}
+
+export interface IAssetManifest {
+    files: {
+        'main.css': string;
+        'main.js': string;
+    }
 }
 
 export interface IAppPack {
@@ -23,7 +30,9 @@ export interface IAppPack {
     deployedBy?: number | null;
     deployedOn?: Date | null;
     hostSPSite?: string;
-    appPackageErrorMessage?: string
+    appPackageErrorMessage?: string;
+    mainJS: string;
+    mainCss: string;
 }
 
 //
@@ -101,7 +110,6 @@ export default class deploymentJob {
     public loadAppPackage(appPackagePath: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             this.resetTempFolder().then(async (v) => {
-                // this.copyAppPackage(appPackagePath).then(async (a) => {
                 const zipfile = this.deploymentConfig.tanentPath.substring(0, this.deploymentConfig.tanentPath.length - 1) + appPackagePath;
                 const __web = Web(this._appCatalogUrl);
                 const __file = await __web.getFileByUrl(zipfile).getBlob();
@@ -112,10 +120,6 @@ export default class deploymentJob {
                     console.log(error);
                     reject(error);
                 });
-                // }).catch((err1: any) => {
-                //     console.log(err1);
-                //     reject(err1);
-                // });
             }).catch((err: any) => {
                 console.log(err);
                 reject(err);
@@ -128,6 +132,18 @@ export default class deploymentJob {
             this.zipContents.file('appManifest.json').async('string').then((__appManifestContent: string) => {
                 const __appManifest: IAppManifest = JSON.parse(__appManifestContent);
                 resolve(__appManifest);
+            }).catch((error: any) => {
+                console.log(error);
+                reject(error);
+            });
+        });
+    }
+
+    public getAssetManifestInfo(): Promise<IAssetManifest> {
+        return new Promise<IAssetManifest>((resolve, reject) => {
+            this.zipContents.file('asset-manifest.json').async('string').then((__assetManifestContent: string) => {
+                const __assetManifest: IAssetManifest = JSON.parse(__assetManifestContent);
+                resolve(__assetManifest);
             }).catch((error: any) => {
                 console.log(error);
                 reject(error);
@@ -201,8 +217,8 @@ export default class deploymentJob {
                     }
                 });
                 const __web = Web(this._spBaseUrl);
-                const ret = await this._createFolders(__web, this.deploymentConfig.cdnPath, '', buildTree(appId, __folders), callbackProgress);
-                resolve(ret);
+                await this._createFolders(__web, this.deploymentConfig.cdnPath, '', buildTree(appId, __folders), callbackProgress);
+                resolve(true);
             }
             catch (err) {
                 console.log(err);
@@ -259,6 +275,78 @@ export default class deploymentJob {
         return [year, month, day].join('-') + "T" + hours + ":" + minutes + ":00Z";
     }
 
+    private provisionAppConfigList(siteUrl: string): Promise<boolean> {
+        return new Promise<boolean>(async (resolve, reject) => {
+            try {
+                const __web = Web(siteUrl);
+                const newlist = await __web.lists.add('SPReact AppConfig', '', 100, false, { Hidden: true });
+                if (newlist != null) {
+                    const __fields = ["AppTitle", "AppID", "AppVersion", "Description", "Publisher",
+                        "MainJS", "MainCss"];
+                    for (let index = 0; index < __fields.length; index++) {
+                        const fld = __fields[index];
+                        await __web.lists.getByTitle('SPReact AppConfig').fields.addText(fld, 255, { FieldTypeKind: FieldTypes.Text });
+                    }
+                    await __web.lists.getByTitle('SPReact AppConfig').fields.getByTitle('AppTitle').update({ Title: 'App Title' });
+                    await __web.lists.getByTitle('SPReact AppConfig').fields.getByTitle('AppID').update({ Title: 'App ID' });
+                    await __web.lists.getByTitle('SPReact AppConfig').fields.getByTitle('AppVersion').update({ Title: 'App Version' });
+                    for (let index = 0; index < __fields.length; index++) {
+                        const fld = __fields[index];
+                        await await __web.lists.getByTitle('SPReact AppConfig').defaultView.fields.add(fld)
+                    }
+                    resolve(true);
+                }
+                else {
+                    reject('unable to create list');
+                }
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    private insertAppOnSite(siteUrl: string, appPack: IAppPack): Promise<boolean> {
+        return new Promise<boolean>(async (resolve, reject) => {
+            try {
+                const __web = Web(siteUrl);
+                const items = await __web.lists.getByTitle('SPReact AppConfig').items.get();
+                for (let index = 0; index < items.length; index++) {
+                    const item = items[index];
+                    await __web.lists.getByTitle('SPReact AppConfig').items.getById(item.Id).delete();
+                }
+                await __web.lists.getByTitle('SPReact AppConfig').items.add({
+                    'AppID': appPack.appId,
+                    'AppTitle': appPack.appTitle,
+                    'AppVersion': appPack.appVersion,
+                    'Description': appPack.description,
+                    'Publisher': appPack.publisher,
+                    'MainJS': appPack.mainJS,
+                    'MainCss': appPack.mainCss
+                });
+                resolve(true);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    public updateAppOnSite(siteUrl: string, appPack: IAppPack): Promise<boolean> {
+        return new Promise<boolean>(async (resolve, reject) => {
+            const __web = Web(siteUrl);
+            __web.lists.getByTitle('SPReact AppConfig').get().then(async (__list) => {
+                await this.insertAppOnSite(siteUrl, appPack);
+                resolve(true);
+            }).catch((e) => {
+                this.provisionAppConfigList(siteUrl).then(async (v) => {
+                    await this.insertAppOnSite(siteUrl, appPack);
+                    resolve(true);
+                }).catch((err) => {
+                    reject(err);
+                })
+            })
+        });
+    }
+
     public updateDeploymentStatus(appPack: IAppPack): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
             const __web = Web(this._appCatalogUrl);
@@ -273,7 +361,9 @@ export default class deploymentJob {
                 DeployedById: appPack.deployedBy,
                 DeployedOn: appPack.deployedOn,
                 HostSPSite: appPack.hostSPSite,
-                AppError: appPack.appPackageErrorMessage
+                AppError: appPack.appPackageErrorMessage,
+                MainJS: appPack.mainJS,
+                MainCss: appPack.mainCss
             }).then((v) => {
                 resolve(true);
             }).catch((err) => {

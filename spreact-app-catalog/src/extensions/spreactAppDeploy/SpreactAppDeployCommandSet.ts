@@ -43,7 +43,7 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
   public async onExecute(event: IListViewCommandSetExecuteEventParameters): Promise<void> {
     switch (event.itemId) {
       case 'COMMAND_1':
-        console.log('Deploying app....');     
+        console.log('Deploying app....');
         const __user = await sp.web.currentUser.get();
         const __Id: string = event.selectedRows[0].getValueByName("ID");
         const __fileName: string = event.selectedRows[0].getValueByName("FileLeafRef");
@@ -61,6 +61,12 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
           __deploymentJob.loadAppPackage(__filePath).then(async (v) => {
             __window.UpdateProgress(`loading app package ... ${__filePath}`, 0.1);
             const __appInfo = await __deploymentJob.getAppManifestInfo();
+            const __assetManifestInfo = await __deploymentJob.getAssetManifestInfo();
+            let __mainJS = __assetManifestInfo.files['main.js'];
+            __mainJS = __mainJS.substring(__mainJS.lastIndexOf('/') + 1);
+            let __mainCss = __assetManifestInfo.files['main.css'];
+            __mainCss = __mainCss.substring(__mainCss.lastIndexOf('/') + 1);
+
             const __appExist = await __deploymentJob.checkIfAppExist(__appInfo.id);
             let __confirmMessage = `Are you sure, you would like to deploy application package ${__fileName} ?`
             if (__appExist) {
@@ -77,29 +83,56 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
               }).then((v) => {
                 if (v) {
                   __deploymentJob.uploadFiles(__appInfo.id, (file) => {
-                    return new Promise<void>((resolve,reject)=>{
+                    return new Promise<void>((resolve, reject) => {
                       __progress += 1;
                       __window.UpdateProgress(`uploading files... ${file}`, 0.5 + __progress / 100);
                       resolve();
                     });
                   }).then(async (v) => {
-                    __deploymentJob.updateDeploymentStatus({
-                      Id: Number(__Id),
-                      appId: __appInfo.id,
-                      appTitle: __appInfo.name,
-                      appVersion: __appInfo.version,
-                      description: __appInfo.description,
-                      publisher: __appInfo.publisher,
-                      validAppPackage: true,
-                      deployed: true,
-                      deployedBy : __user.Id,
-                      deployedOn: (new Date()),
-                      hostSPSite: __selectedSite,
-                      appPackageErrorMessage:''
-                    });
-                    await __window.ShowAlert("Application package has been deployed successfully.");
-                    await _progressDialog.Close();
-                    return Promise.resolve();
+                    try {
+                      __window.UpdateProgress(`updating app on ${__selectedSite}`, 0.8);
+                      await __deploymentJob.updateAppOnSite(__selectedSite + '',
+                        {
+                          Id: Number(__Id),
+                          appId: __appInfo.id,
+                          appTitle: __appInfo.name,
+                          appVersion: __appInfo.version,
+                          description: __appInfo.description,
+                          publisher: __appInfo.publisher,
+                          validAppPackage: true,
+                          deployed: true,
+                          deployedBy: __user.Id,
+                          deployedOn: (new Date()),
+                          hostSPSite: __selectedSite,
+                          appPackageErrorMessage: '',
+                          mainJS: __mainJS,
+                          mainCss: __mainCss
+                        });
+                      __window.UpdateProgress(`updating deployment status....`, 0.9);
+                      await __deploymentJob.updateDeploymentStatus({
+                        Id: Number(__Id),
+                        appId: __appInfo.id,
+                        appTitle: __appInfo.name,
+                        appVersion: __appInfo.version,
+                        description: __appInfo.description,
+                        publisher: __appInfo.publisher,
+                        validAppPackage: true,
+                        deployed: true,
+                        deployedBy: __user.Id,
+                        deployedOn: (new Date()),
+                        hostSPSite: __selectedSite,
+                        appPackageErrorMessage: '',
+                        mainJS: __mainJS,
+                        mainCss: __mainCss
+                      });
+                      await __window.ShowAlert("Application package has been deployed successfully.");
+                      await _progressDialog.Close();
+                      return Promise.resolve();
+                    }
+                    catch (ex) {
+                      await __window.ShowAlert(`Error in updating app... ${ex}`);
+                      return Promise.resolve();
+                    }
                   }).catch(async (err) => {
                     __deploymentJob.updateDeploymentStatus({
                       Id: Number(__Id),
@@ -110,10 +143,12 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
                       publisher: __appInfo.publisher,
                       validAppPackage: true,
                       deployed: false,
-                      deployedBy : null,
+                      deployedBy: null,
                       deployedOn: null,
                       hostSPSite: '',
-                      appPackageErrorMessage: `Error in creating files... ${err}`
+                      appPackageErrorMessage: `Error in creating files... ${err}`,
+                      mainJS: '',
+                      mainCss: ''
                     });
                     await __window.ShowAlert(`Error in creating files... ${err}`);
                     await _progressDialog.Close();
@@ -130,10 +165,12 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
                   publisher: __appInfo.publisher,
                   validAppPackage: true,
                   deployed: false,
-                  deployedBy : null,
+                  deployedBy: null,
                   deployedOn: null,
                   hostSPSite: '',
-                  appPackageErrorMessage: `Error in creating folders... ${error}`
+                  appPackageErrorMessage: `Error in creating folders... ${error}`,
+                  mainJS: '',
+                  mainCss: ''
                 });
                 await __window.ShowAlert(`Error in creating folders... ${error}`);
                 await _progressDialog.Close();
@@ -150,14 +187,16 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
               appId: '',
               appTitle: '',
               appVersion: '',
-              description:'',
-              publisher:'',
+              description: '',
+              publisher: '',
               deployed: false,
               validAppPackage: false,
               deployedBy: null,
               deployedOn: null,
               hostSPSite: '',
-              appPackageErrorMessage: `Invalid application package : ${err}`
+              appPackageErrorMessage: `Invalid application package : ${err}`,
+              mainJS: '',
+              mainCss: ''
             });
             await __window.ShowAlert(`Error in loading app pakckage... ${err}`)
             await _progressDialog.Close();
@@ -193,13 +232,15 @@ export default class SpreactAppDeployCommandSet extends BaseListViewCommandSet<I
                   appTitle: __appInfo.name,
                   appVersion: __appInfo.version,
                   description: __appInfo.description,
-                  publisher : __appInfo.publisher,
+                  publisher: __appInfo.publisher,
                   deployedBy: null,
                   validAppPackage: true,
                   deployed: false,
                   appPackageErrorMessage: '',
                   hostSPSite: '',
-                  deployedOn: null
+                  deployedOn: null,
+                  mainJS: '',
+                  mainCss: ''
                 });
                 await Dialog.alert(`The application ${__appInfo.name} has been removed successfully.`);
                 return Promise.resolve();

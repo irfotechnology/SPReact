@@ -5,7 +5,7 @@
     "title": "SPREACT APP CATALOG",
     "iconPath": "icons/appicon.png",
     "id": "2f846d4a-8ae2-4e4e-8291-084e5d6e5803",
-    "version": "1.0.0.0",
+    "version": "1.0.0.1",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
@@ -32,7 +32,7 @@
         "title": "SPREACT app catalog feature",
         "description": "Deploys a custom action with app catalog",
         "id": "dab05535-edac-4b83-a68f-989d7fb752dd",
-        "version": "1.0.0.0",
+        "version": "1.0.0.1",
         "assets": {
           "elementManifests": [
             "elements.xml",

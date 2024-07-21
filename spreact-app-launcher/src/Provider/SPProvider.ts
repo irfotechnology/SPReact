@@ -15,7 +15,9 @@ class SPProvider implements ISPProvider {
                         appTitle: item.AppTitle,
                         appVersion: item.AppVersion,
                         description: item.Description,
-                        publisher: item.Publisher
+                        publisher: item.Publisher,
+                        mainJS: item.MainJS,
+                        mainCss: item.MainCss
                     } as IAppConfig;
                 });
                 resolve(__apps);
@@ -32,7 +34,9 @@ class SPProvider implements ISPProvider {
                 'AppTitle': appConfig.appTitle,
                 'AppVersion': appConfig.appVersion,
                 'Description': appConfig.description,
-                'Publisher': appConfig.publisher
+                'Publisher': appConfig.publisher,
+                'MainJS': appConfig.mainJS,
+                'mainCss' : appConfig.mainCss
             }).then((v) => {
                 resolve(true);
             }).catch((err) => {
@@ -52,6 +56,8 @@ class SPProvider implements ISPProvider {
                         description: app.Description,
                         publisher: app.Publisher,
                         HostSPSite: app.HostSPSite,
+                        mainJS: app.MainJS,
+                        mainCss: app.MainCss
                     } as IAppConfig;
                 });
                 resolve(__apps);

@@ -23,12 +23,12 @@ export interface ISpreactAppLauncherApplicationCustomizerProperties {
 export default class SpreactAppLauncherApplicationCustomizer
   extends BaseApplicationCustomizer<ISpreactAppLauncherApplicationCustomizerProperties> {
 
-  public loadApp(appid: string, apptitle: string): void {
+  public loadApp(appid: string, apptitle: string, mainJS: string, mainCss: string): void {
     const __host = window.location.host;
     if (appid) {
       console.log(`Loading custom app ${appid}`);
-      const jsUrl = `https://publiccdn.sharepointonline.com/${__host}/ClientSideApps/${appid}/main.js`
-      const cssUrl: string = `https://publiccdn.sharepointonline.com/${__host}/ClientSideApps/${appid}/main.css`
+      const jsUrl = `https://publiccdn.sharepointonline.com/${__host}/ClientSideApps/${appid}/${mainJS}`
+      const cssUrl: string = `https://publiccdn.sharepointonline.com/${__host}/ClientSideApps/${appid}/${mainCss}`
       const iconUrl: string = `https://publiccdn.sharepointonline.com/${__host}/ClientSideApps/${appid}/favicon.ico`
       console.log(jsUrl);
       // update title
@@ -155,7 +155,7 @@ export default class SpreactAppLauncherApplicationCustomizer
                 console.log(ex);
                 reject(ex);
               });
-              this.loadApp(installedApps[0].appId, installedApps[0].appTitle);
+              this.loadApp(installedApps[0].appId, installedApps[0].appTitle, items[0].mainJS, items[0].mainCss);
               resolve();
             }
           }).catch((error) => {
@@ -166,7 +166,7 @@ export default class SpreactAppLauncherApplicationCustomizer
         else {
           //load script
           console.log(items[0].appId);
-          this.loadApp(items[0].appId, items[0].appTitle);
+          this.loadApp(items[0].appId, items[0].appTitle, items[0].mainJS, items[0].mainCss);
           resolve();
         }
       }).catch((err) => {

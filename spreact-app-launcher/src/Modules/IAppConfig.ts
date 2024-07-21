@@ -5,5 +5,7 @@ export default interface IAppConfig{
     appVersion: string;
     description: string;
     publisher: string;
-    HostSPSite?: string
+    HostSPSite?: string;
+    mainJS:string;
+    mainCss: string;
 }
