@@ -1,6 +1,6 @@
 {
   "name": "spreact-app-package",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "create package for spreact app",
   "repository": {
     "type": "git",

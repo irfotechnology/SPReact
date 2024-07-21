@@ -58,9 +58,9 @@ try {
 
     const assetManifest = JSON.parse(fs.readFileSync(`${dirBuild}/asset-manifest.json`));
     const mainJS = assetManifest.files['main.js'];
-    const mainJSFilename = mainJS.substr(mainJSPath.lastIndexOf('/')+1);
+    const mainJSFilename = mainJS.substr(mainJS.lastIndexOf('/')+1);
     const mainCss = assetManifest.files['main.css'];
-    const mainCssFilename = mainJS.substr(mainJSPath.lastIndexOf('/')+1);
+    const mainCssFilename = mainCss.substr(mainCss.lastIndexOf('/')+1);
     const packManifest = JSON.parse(fs.readFileSync(`${currentDir}/config/app-package.json`));
     const appManifest = packManifest.app;
     const sharepointHost = packManifest.sharepointHost;
