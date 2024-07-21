@@ -58,7 +58,9 @@ try {
 
     const assetManifest = JSON.parse(fs.readFileSync(`${dirBuild}/asset-manifest.json`));
     const mainJS = assetManifest.files['main.js'];
+    const mainJSFilename = mainJS.substr(mainJSPath.lastIndexOf('/')+1);
     const mainCss = assetManifest.files['main.css'];
+    const mainCssFilename = mainJS.substr(mainJSPath.lastIndexOf('/')+1);
     const packManifest = JSON.parse(fs.readFileSync(`${currentDir}/config/app-package.json`));
     const appManifest = packManifest.app;
     const sharepointHost = packManifest.sharepointHost;
@@ -80,9 +82,9 @@ try {
     updateStaticCDNPath(dirTemp, staticCDNPath);
     //console.log('Updated static cdn path.');
     //copy main.js file
-    fs.copyFileSync(fs.realpathSync(`${dirTemp}${mainJS}`), `${dirTemp}/main.js`);
+    fs.copyFileSync(fs.realpathSync(`${dirTemp}${mainJS}`), `${dirTemp}/${mainJSFilename}`);
     //copy main.css file
-    fs.copyFileSync(fs.realpathSync(`${dirTemp}${mainCss}`), `${dirTemp}/main.css`);
+    fs.copyFileSync(fs.realpathSync(`${dirTemp}${mainCss}`), `${dirTemp}/${mainCssFilename}`);
     //Copy app manifest file
     fs.writeFileSync(`${dirTemp}/appManifest.json`, JSON.stringify(appManifest));
     //create app pacakge
