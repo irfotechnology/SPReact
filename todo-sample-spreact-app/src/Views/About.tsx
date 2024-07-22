@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import AppLayout from '../Layouts/AppLayout';
-import { Card, Divider, Grid, Stack, Typography } from '@mui/material';
+import { Card, Divider, Grid, Paper, Stack, Typography } from '@mui/material';
 import styles from '../App.module.scss';
 import UserContext from '../AppContext/UserContext';
 import { IAppInfo } from '../Models/IAppInfo';
@@ -17,7 +17,7 @@ function About() {
         })
     }, [context.AppNotificationService, context.DefaultSPListProvider])
     return <AppLayout>
-        <Card className={styles.AppInfo} variant="outlined">
+        <Paper className={styles.AppInfo}  elevation={12}>
             <Stack direction={'row'}>
                 <img width={'100px'} src={logo} alt='logo'></img>
                 <Typography style={{lineHeight:'100px'}} variant='h4'> About App:</Typography>
@@ -55,7 +55,7 @@ function About() {
                     <Typography>{__app?.publisher}</Typography>
                 </Grid>
             </Grid>
-        </Card>
+        </Paper>
     </AppLayout>
 }
 

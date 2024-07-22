@@ -45,7 +45,7 @@ function AppLayout(props: any) {
                     }}></ResponsiveAppBar>
                     <Stack direction="row">
                         <LeftNavBar drawerOpen={drawerOpen} onDrawerOpen={(isOpen) => { setDrawerOpen(isOpen); }}></LeftNavBar>
-                        <Box id="ViewContainer" sx={{ width: '100%', minHeight: (window.innerHeight - 110) + 'px', margin: '0px 40px', padding: '20px' }}>
+                        <Box id="ViewContainer" sx={{ width: '100%', minHeight: (window.innerHeight - 110) + 'px', margin: '0px 10px', padding: '10px' }}>
                             {props.children}
                         </Box>
                     </Stack>

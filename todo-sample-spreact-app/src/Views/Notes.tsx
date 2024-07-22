@@ -34,7 +34,7 @@ function Notes() {
     }, [__id,context.AppNotificationService,context.DefaultSPListProvider]);
 
     return <AppLayout>
-        <Box position='sticky' top={'120px'} zIndex={100} >
+        <Box position='sticky' top={'100px'} zIndex={100} >
             <Fab
                 onClick={(e) => {
                     if (__note.id === -1) {
@@ -58,7 +58,7 @@ function Notes() {
                 sx={{
                     position: 'absolute',
                     //top: "120px",
-                    right: (theme) => theme.spacing(__id === 'new' ? '70px' : '140px'),
+                    right: (theme) => theme.spacing(__id === 'new' ? '0px' : '60px'),
                 }}
             >
                 <SaveIcon />
@@ -73,7 +73,7 @@ function Notes() {
                 sx={{
                     position: 'absolute',
                     //top: "120px",
-                    right: (theme) => theme.spacing('70px'),
+                    right: (theme) => theme.spacing('0px'),
                 }}
             >
                 <AddIcon />

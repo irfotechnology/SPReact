@@ -24,12 +24,12 @@ function ResponsiveAppBar(props: { onIconClick: () => void }) {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [__user, __setUser] = React.useState<{ name: string, email: string }>();
-  React.useEffect(()=>{
+  React.useEffect(() => {
     context.DefaultSPListProvider.getUserProfile().then((u) => {
       __setUser(u);
     })
-  },[context.DefaultSPListProvider]);
-  
+  }, [context.DefaultSPListProvider]);
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -54,11 +54,11 @@ function ResponsiveAppBar(props: { onIconClick: () => void }) {
   return (
     <>
       <AppBar position="sticky">
-        <Box sx={{margin:'0px 60px'}} >
+        <Box sx={{ margin: '0px 10px' }} >
           <Toolbar disableGutters>
             <MenuIcon onClick={props.onIconClick} sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             {/* <Notebook sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
-            <img src={applogo} alt='applogo' width={'24px'} style={{display: 'flex', margin: '0px 10px'  }}></img>
+            <img src={applogo} alt='applogo' width={'24px'} style={{ display: 'flex', margin: '0px 10px' }}></img>
             <Typography
               variant="h6"
               noWrap
@@ -107,7 +107,9 @@ function ResponsiveAppBar(props: { onIconClick: () => void }) {
                 }}
               >
                 {pages.map((page) => (
-                  <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <MenuItem key={page.name}
+                    onClick={(e) => { onMenuClick(page.href); e.preventDefault(); }}
+                  >
                     <Typography textAlign="center">{page.name}</Typography>
                   </MenuItem>
                 ))}
@@ -144,7 +146,7 @@ function ResponsiveAppBar(props: { onIconClick: () => void }) {
                 </Button>
               ))}
             </Box>
-            <Box sx={{ flexGrow: 0, float:'right' }}>
+            <Box sx={{ flexGrow: 0, float: 'right' }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt={__user?.name} src={`${context.SPHost}/_layouts/15/userphoto.aspx?size=L&accountname=${__user?.email}`} />
